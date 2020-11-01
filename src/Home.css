@@ -1,0 +1,13 @@
+
+.image-hero {
+  width: 100%;
+  padding-bottom: 70%;
+  background-image: url(./images/homeImageHero1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+h2 {
+  font-family: 'Anton', sans-serif;
+}

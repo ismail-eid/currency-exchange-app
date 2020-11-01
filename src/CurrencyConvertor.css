@@ -1,0 +1,14 @@
+
+.currency-input {
+  width: initial;
+  display: inline-block;
+}
+
+.currency-box {
+  padding: 0 20px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+}
+
+.currency-input {
+  width: 94px
+}
