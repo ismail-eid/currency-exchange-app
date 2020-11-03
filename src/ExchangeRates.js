@@ -46,14 +46,12 @@ class ExchangeRates extends React.Component {
 
     return (
       <div className="row pb-5 justify-content-center align-item-center">
-        <div className="col-1">
-        <select className="form-control" onChange={this.handleChange}>
+        <select className="form-control currencies" onChange={this.handleChange}>
           {currencyNames.map(currency => {
             return <option key={currency} value={currency}>{currency}</option>
           })}
           <option value={base}>{base}</option>
         </select>
-        </div>
         <div className="row table-currencies">
           {currencyTable.map(column => {
             return column;

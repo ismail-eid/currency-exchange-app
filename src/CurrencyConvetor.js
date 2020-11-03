@@ -2,8 +2,6 @@ import React from 'react'
 import {checkStatus, json} from './utils'
 import './CurrencyConvertor.css'
 
-let timerFromInput;
-let timerToInput;
 class CurrencyConvertor extends React.Component {
   constructor(props) {
     super(props);
@@ -21,13 +19,13 @@ class CurrencyConvertor extends React.Component {
   }
 
   componentDidMount () {
-    fetch('https://alt-exchange-rate.herokuapp.com/latest?base=BGN').then(checkStatus).then(json).then(data => {
-      this.setState({currencies: data.rates,})
+    fetch('https://alt-exchange-rate.herokuapp.com/latest').then(checkStatus).then(json).then(data => {
+      this.setState({currencies: data.rates})
     }).catch(error => {
       console.log(error);
     })
   }
-   //update from and to currencies have chosen.
+   // update from and to currencies have chosen.
   handleCurrencyChange (event) {
     const {name, value} = event.target;
     this.setState({[name]: value});
@@ -35,43 +33,30 @@ class CurrencyConvertor extends React.Component {
 
   // from input change handler
   hanleFromInputChange (event) {
-    clearInterval(timerFromInput);
+    
     const value = event.target.value;
     this.setState({from_amount: value})
 
-    timerFromInput = setTimeout(() => {
-      const {from, to} = this.state;
+    const {from, to} = this.state;
+    const fromCurrency = this.state.currencies[from];
+    const toCurrency = this.state.currencies[to];
+    const rate = toCurrency / fromCurrency;
 
-      fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${from}&symbols=${to}`).then(checkStatus).then(json).then(data => {
-        const result = data.rates[to] * value;
-        this.setState({to_amount: result.toFixed(3)})
-      }).catch(error => {
-        console.log(error);
-      })
-    }, 1000)
+    const result = value * rate;
+    this.setState({to_amount: result.toFixed(3)})
   }
 
   // to input change handler
   handleToInputChange (event) {
-    clearInterval(timerToInput);
     const value = event.target.value;
-    this.setState({to_amount: value})
+     
+    const {from, to} = this.state;
+    const fromCurrency = this.state.currencies[from];
+    const toCurrency = this.state.currencies[to];
+    const rate = fromCurrency / toCurrency;
 
-    timerToInput = setTimeout(() => {
-      const {from, to} = this.state;
-
-      fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${to}&symbols=${from}`).then(checkStatus).then(json).then(data => {
-        const result = value/ data.rates[from];
-        this.setState({from_amount: result.toFixed(3)})
-      }).catch(error => {
-        console.log(error);
-      })
-    }, 1000)
-  }
-
-  componentWillUnmount () {
-    clearInterval(timerFromInput);
-    clearInterval(timerToInput);
+    const result = value * rate;
+    this.setState({from_amount: result.toFixed(3)})
   }
 
   render () {
