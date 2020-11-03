@@ -49,6 +49,7 @@ class CurrencyConvertor extends React.Component {
   // to input change handler
   handleToInputChange (event) {
     const value = event.target.value;
+    this.setState({to_amount: value})
      
     const {from, to} = this.state;
     const fromCurrency = this.state.currencies[from];
